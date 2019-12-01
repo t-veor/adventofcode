@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 
 if len(sys.argv) > 1:
@@ -5,7 +6,7 @@ if len(sys.argv) > 1:
 else:
     filename = "input.txt"
 
-data = open("input.txt").read().splitlines()
+data = open(filename).read().splitlines()
 
 # star 1
 print(sum(int(i) // 3 - 2 for i in data))
