@@ -21,3 +21,10 @@ shebang and comment for this to work.
 I use [`cargo-script`](https://github.com/DanielKeep/cargo-script) to run Rust
 files as scripts. After installing `cargo-script`, `cd` to the correct directory
 and run `cargo script filename.rs`.
+
+### C
+There's a bit of hackery to get the C files to also execute as a bash script
+that compiles itself and executes it if you run `./filename.c`, but otherwise
+they are self-contained and you should be able to just run
+`gcc filename.c && ./a.out` in the right directory (other compilers are
+available).
