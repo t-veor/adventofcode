@@ -16,8 +16,8 @@ void __vec_init(size_t data_size, size_t* length, size_t* capacity,
     *data = (char*)malloc(VECTOR_INITIAL_CAPACITY * data_size);
 }
 
-void* __vec_expand(size_t data_size, size_t* length, size_t* capacity,
-                   char** data) {
+void __vec_expand(size_t data_size, size_t* length, size_t* capacity,
+                  char** data) {
     if (*length == *capacity) {
         *capacity *= VECTOR_RESIZE_FACTOR;
         *data = (char*)realloc(*data, *capacity * data_size);
