@@ -23,21 +23,21 @@ runProgram arr (arg1, arg2) = runST $ do
       case opcode of
         99 -> readArray memory 0
         1  -> do
-          (op1, op2, trg) <- load memory pc
-          writeArray memory trg (op1 + op2)
+          (op1, op2, dst) <- load memory pc
+          writeArray memory dst (op1 + op2)
           exec memory (pc + 4)
         2 -> do
-          (op1, op2, trg) <- load memory pc
-          writeArray memory trg (op1 * op2)
+          (op1, op2, dst) <- load memory pc
+          writeArray memory dst (op1 * op2)
           exec memory (pc + 4)
         _ -> fail $ "Unknown opcode " ++ show opcode
     load memory pc = do
       src <- readArray memory (pc + 1)
-      dst <- readArray memory (pc + 2)
-      trg <- readArray memory (pc + 3)
+      trg <- readArray memory (pc + 2)
+      dst <- readArray memory (pc + 3)
       op1 <- readArray memory src
-      op2 <- readArray memory dst
-      return (op1, op2, trg)
+      op2 <- readArray memory trg
+      return (op1, op2, dst)
 
 star1 :: Array Int Int -> Int
 star1 inputArray = runProgram inputArray (12, 2)
