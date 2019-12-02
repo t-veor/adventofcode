@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Basic vector implementation
 #define VECTOR_INITIAL_CAPACITY 16
@@ -39,6 +40,17 @@ void* __vec_expand(size_t data_size, size_t* length, size_t* capacity,
     do {                                                                       \
         __vec_expand(__vec_explode(v));                                        \
         (v)->data[(v)->length++] = (x);                                        \
+    } while (0)
+
+#define vec_clone(u, v)                                                        \
+    do {                                                                       \
+        (v)->length = (u)->length;                                             \
+        (v)->capacity = (u)->capacity;                                         \
+        char** data = (char**)&(v)->data;                                      \
+        *data = (char*)malloc((v)->capacity * sizeof(*(v)->data));             \
+        for (size_t i = 0; i < (v)->length; i++) {                             \
+            (v)->data[i] = (u)->data[i];                                       \
+        }                                                                      \
     } while (0)
 
 #define vec_done(v)                                                            \
