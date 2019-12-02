@@ -19,15 +19,15 @@ def run_program(memory, arg1, arg2):
         if op == 99:
             break
         else:
-            src, dst, trg = memory[pc+1:pc+4]
-            operand1, operand2 = memory[src], memory[dst]
+            src, trg, dst = memory[pc+1:pc+4]
+            operand1, operand2 = memory[src], memory[trg]
             if op == 1:
                 result = operand1 + operand2
             elif op == 2:
                 result = operand1 * operand2
             else:
                 raise Exception("Unknown opcode {}".format(op))
-            memory[trg] = result
+            memory[dst] = result
         pc += 4
     # print(memory)
     return memory[0]
