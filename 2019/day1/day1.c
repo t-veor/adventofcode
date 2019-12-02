@@ -4,42 +4,13 @@ cc "$0" -o "$tmpfile" && "$tmpfile" "$@"
 exit
 #endif
 
-#include <stdlib.h>
-#include <stdint.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <stdio.h>
-#include <errno.h>
 
-/// INPUT HANDLING
-// Very basic vector implementation
-#define INITIAL_CAPACITY 16
+#include "../c_utils/utils.h"
 
-typedef struct {
-    int32_t* data;
-    size_t length;
-    size_t capacity;
-} int_vec_t;
-
-void int_vec_init(int_vec_t* vec) {
-    vec->capacity = INITIAL_CAPACITY;
-    vec->length = 0;
-    vec->data = malloc(vec->capacity * sizeof(int32_t));
-}
-
-void int_vec_push(int_vec_t* vec, int32_t datum) {
-    if (vec->length == vec->capacity) {
-        vec->capacity *= 2;
-        vec->data = realloc(vec->data, vec->capacity * sizeof(int32_t));
-    }
-
-    vec->data[vec->length++] = datum;
-}
-
-void int_vec_done(int_vec_t* vec) {
-    free(vec->data);
-    vec->length = 0;
-    vec->capacity = 0;
-}
+typedef vec_t(int32_t) int_vec_t;
 
 void read_input(char* filename, int_vec_t* vec) {
     FILE* file = fopen(filename, "r");
@@ -50,10 +21,11 @@ void read_input(char* filename, int_vec_t* vec) {
 
     int32_t x;
     while (fscanf(file, "%" PRId32 " ", &x) != EOF) {
-        int_vec_push(vec, x);
+        vec_push(vec, x);
     }
+
+    fclose(file);
 }
-/// END INPUT HANDLING
 
 int32_t fuel_reqs(int32_t mass) {
     return mass / 3 - 2;
@@ -97,12 +69,12 @@ int main(int argc, char** argv) {
     }
 
     int_vec_t input;
-    int_vec_init(&input);
+    vec_init(&input);
 
     read_input(filename, &input);
 
     star1(&input);
     star2(&input);
 
-    int_vec_done(&input);
+    vec_done(&input);
 }
