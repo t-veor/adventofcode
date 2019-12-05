@@ -9,10 +9,6 @@ exit
 
 #include "../c_utils/utils.h"
 
-struct foo {
-    int bar, baz;
-};
-
 typedef vec_t(size_t) vec_size_t;
 
 void read_input(char* filename, vec_size_t* vec) {
