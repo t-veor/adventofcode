@@ -8,7 +8,7 @@ exit
 #include <inttypes.h>
 #include <stdio.h>
 
-#include "../c_utils/utils.h"
+#include "../c_utils/vec.h"
 
 typedef vec_t(int32_t) int_vec_t;
 
