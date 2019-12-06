@@ -57,6 +57,6 @@ main = do
       (x:_) -> x
       _     -> "input.txt"
   input <- map read . splitOn "," <$> readFile filename
-  let inputArray = listArray (0, length input) input
+  let inputArray = listArray (0, length input - 1) input
   print $ star1 inputArray
   print $ star2 inputArray
