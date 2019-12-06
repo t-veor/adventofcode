@@ -1,5 +1,5 @@
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef VEC_H_
+#define VEC_H_
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -60,4 +60,4 @@ void __vec_expand(size_t data_size, size_t* length, size_t* capacity,
         (v)->capacity = 0;                                                     \
     } while (0)
 
-#endif // UTILS_H_
+#endif // VEC_H_
