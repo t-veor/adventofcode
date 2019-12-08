@@ -53,6 +53,11 @@ void __vec_expand(size_t data_size, size_t* length, size_t* capacity,
         }                                                                      \
     } while (0)
 
+#define vec_clear(v)                                                           \
+    do {                                                                       \
+        (v)->length = 0;                                                       \
+    } while(0)
+
 #define vec_done(v)                                                            \
     do {                                                                       \
         free((v)->data);                                                       \
