@@ -1,6 +1,5 @@
 #!/usr/bin/env stack
 -- stack --resolver lts-14.16 script
-module Day01 where
 
 import System.Environment (getArgs)
 

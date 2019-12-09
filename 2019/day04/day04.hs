@@ -1,6 +1,5 @@
 #!/usr/bin/env stack
 -- stack --resolver lts-14.16 script
-module Day04 where
 
 import System.Environment (getArgs)
 import Data.List.Split (splitOn)

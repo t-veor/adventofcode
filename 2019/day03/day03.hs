@@ -1,6 +1,5 @@
 #!/usr/bin/env stack
 -- stack --resolver lts-14.16 script
-module Day03 where
 
 import System.Environment (getArgs)
 import qualified Data.Map as M

@@ -1,7 +1,6 @@
 #!/usr/bin/env stack
 -- stack --resolver lts-14.16 script
 {-# LANGUAGE FlexibleContexts #-}
-module Day05 where
 
 import System.Environment (getArgs)
 import Data.List.Split (splitOn)

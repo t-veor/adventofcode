@@ -2,7 +2,6 @@
 -- stack --resolver lts-14.16 script
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
-module Day07 where
 
 import System.Environment (getArgs)
 import Data.List.Split (splitOn)

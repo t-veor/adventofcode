@@ -1,6 +1,5 @@
 -- stack --resolver lts-14.16 script
 {-# LANGUAGE TupleSections #-}
-module Day08 where
 
 import System.Environment (getArgs)
 import Data.List.Split (splitOn, chunksOf)
