@@ -15,7 +15,10 @@ directory and run the script as `python filename.py`.
 I run my Haskell files as scripts with
 [`stack`](https://www.haskellstack.org/), by `cd`-ing to the right directory
 and running `stack filename.hs`. The Haskell files are set up with the right
-shebang and comment for this to work.
+shebang and comment for this to work. Since some of the Haskell solutions are
+quite slow when run in interpreted mode, you can run
+`stack --resolver lts-14.16 script filename.hs --optimize` to produce a much
+faster executable.
 
 ### Rust
 I use [`cargo-script`](https://github.com/DanielKeep/cargo-script) to run Rust
@@ -24,7 +27,7 @@ and run `cargo script filename.rs`.
 
 ### C
 There's a bit of hackery to get the C files to also execute as a bash script
-that compiles itself and executes it if you run `./filename.c`, but otherwise
-they are self-contained and you should be able to just run
+that compiles and executes itself if you run `./filename.c`, but otherwise they
+are self-contained and you should be able to just run
 `gcc filename.c && ./a.out` in the right directory (other compilers are
 available).
