@@ -1,5 +1,10 @@
+*
+!*.*
+!*/
 .vscode
 *.out
 *.o
+*.so
+*.a
 *.hi
 *.exe
