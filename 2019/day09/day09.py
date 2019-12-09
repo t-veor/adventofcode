@@ -14,13 +14,8 @@ class IntCodeVM:
     def __init__(self, memory):
         self.memory = defaultdict(lambda: 0, enumerate(memory))
         self.pc = 0
-        self.inputs = []
-        self.outputs = []
         self.halted = False
         self.rbase = 0
-
-    def push_input(self, x):
-        self.inputs.append(x)
 
     def run(self, input_gen):
         buf = []
