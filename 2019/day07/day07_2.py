@@ -13,12 +13,7 @@ class IntCodeVM:
     def __init__(self, memory):
         self.memory = memory[:]
         self.pc = 0
-        self.inputs = []
-        self.outputs = []
         self.halted = False
-
-    def push_input(self, x):
-        self.inputs.append(x)
 
     def run(self, input_gen):
         buf = []
