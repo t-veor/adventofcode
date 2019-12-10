@@ -24,6 +24,18 @@ void __vec_expand(size_t data_size, size_t* length, size_t* capacity,
     }
 }
 
+void __vec_reverse(size_t data_size, size_t length, char* data) {
+    char* tmp_buf = (char*)malloc(data_size);
+    for (size_t i = 0; i < length / 2; i++) {
+        size_t src = i * data_size;
+        size_t dst = (length - i - 1) * data_size;
+        memcpy(tmp_buf, &data[src], data_size);
+        memcpy(&data[src], &data[dst], data_size);
+        memcpy(&data[dst], tmp_buf, data_size);
+    }
+    free(tmp_buf);
+}
+
 #define vec_t(T)                                                               \
     struct {                                                                   \
         size_t length;                                                         \
@@ -57,6 +69,9 @@ void __vec_expand(size_t data_size, size_t* length, size_t* capacity,
     do {                                                                       \
         (v)->length = 0;                                                       \
     } while(0)
+
+#define vec_reverse(v)                                                         \
+    __vec_reverse(sizeof(*(v)->data), (v)->length, (char*)(v)->data)
 
 #define vec_done(v)                                                            \
     do {                                                                       \

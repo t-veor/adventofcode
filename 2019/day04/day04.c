@@ -24,21 +24,13 @@ void read_input(char* filename, int32_t* start, int32_t* end) {
     }
 }
 
-void reverse(vec_int32_t* vec) {
-    for (size_t i = 0; i < vec->length / 2; i++) {
-        int32_t tmp = vec->data[i];
-        vec->data[i] = vec->data[vec->length - i - 1];
-        vec->data[vec->length - i - 1] = tmp;
-    }
-}
-
 void explode_integer(int32_t x, vec_int32_t* out) {
     vec_clear(out);
     while (x) {
         vec_push(out, x % 10);
         x /= 10;
     }
-    reverse(out);
+    vec_reverse(out);
 }
 
 void digit_freqs(vec_int32_t* integer, int32_t* freqs) {
