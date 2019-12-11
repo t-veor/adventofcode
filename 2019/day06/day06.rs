@@ -21,7 +21,7 @@ fn shortest_path_between(tree: &DirectedTree, start: &str, end: &str) -> i32 {
     let mut common_subpath_length = 0;
     for (i, j) in path1.iter().zip(path2.iter()) {
         if i != j {
-            break
+            break;
         }
         common_subpath_length += 1;
     }

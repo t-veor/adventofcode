@@ -8,12 +8,12 @@ fn run_program(input: &Vec<usize>, noun: usize, verb: usize) -> usize {
     loop {
         let opcode = memory[pc];
         if opcode == 99 {
-            break
+            break;
         }
 
-        let src = memory[pc+1];
-        let trg = memory[pc+2];
-        let dst = memory[pc+3];
+        let src = memory[pc + 1];
+        let trg = memory[pc + 2];
+        let dst = memory[pc + 3];
         let op1 = memory[src];
         let op2 = memory[trg];
 
@@ -39,7 +39,7 @@ fn star2(input: &Vec<usize>) -> usize {
     for noun in 0..100 {
         for verb in 0..100 {
             if run_program(input, noun, verb) == target {
-                return 100 * noun + verb
+                return 100 * noun + verb;
             }
         }
     }
