@@ -26,8 +26,7 @@ impl IntCodeVM {
         let read = |i: usize| {
             if i < self.memory.len() {
                 self.memory[i]
-            }
-            else {
+            } else {
                 0
             }
         };
@@ -42,14 +41,33 @@ impl IntCodeVM {
         let trg = read(self.pc + 2);
         let dst = read(self.pc + 3);
 
-        let op1 = if src_mode == 1 { src } else { read(src as usize) };
-        let op2 = if trg_mode == 1 { trg } else { read(trg as usize) };
-        let op3 = if dst_mode == 1 { dst } else { read(dst as usize) };
+        let op1 = if src_mode == 1 {
+            src
+        } else {
+            read(src as usize)
+        };
+        let op2 = if trg_mode == 1 {
+            trg
+        } else {
+            read(trg as usize)
+        };
+        let op3 = if dst_mode == 1 {
+            dst
+        } else {
+            read(dst as usize)
+        };
 
-        (opcode, (src as usize, trg as usize, dst as usize), (op1, op2, op3))
+        (
+            opcode,
+            (src as usize, trg as usize, dst as usize),
+            (op1, op2, op3),
+        )
     }
 
-    fn step<F>(&mut self, next_input: F) -> VMStatus where F: FnOnce() -> i32 {
+    fn step<F>(&mut self, next_input: F) -> VMStatus
+    where
+        F: FnOnce() -> i32,
+    {
         if self.halted {
             return VMStatus::Halted;
         }
@@ -62,12 +80,12 @@ impl IntCodeVM {
                 self.memory[dst] = op1 + op2;
                 self.pc += 4;
                 VMStatus::Continue
-            },
+            }
             2 => {
                 self.memory[dst] = op1 * op2;
                 self.pc += 4;
                 VMStatus::Continue
-            },
+            }
             3 => {
                 self.memory[src] = next_input();
                 self.pc += 2;
@@ -76,25 +94,25 @@ impl IntCodeVM {
             4 => {
                 self.pc += 2;
                 VMStatus::Output(op1)
-            },
+            }
             5 => {
                 self.pc = if op1 != 0 { op2 as usize } else { self.pc + 3 };
                 VMStatus::Continue
-            },
+            }
             6 => {
                 self.pc = if op1 == 0 { op2 as usize } else { self.pc + 3 };
                 VMStatus::Continue
-            },
+            }
             7 => {
                 self.memory[dst] = (op1 < op2) as i32;
                 self.pc += 4;
                 VMStatus::Continue
-            },
+            }
             8 => {
                 self.memory[dst] = (op1 == op2) as i32;
                 self.pc += 4;
                 VMStatus::Continue
-            },
+            }
             _ => panic!(format!("Unknown opcode {}", opcode)),
         }
     }

@@ -3,22 +3,22 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 
 fn parse_wire(s: &str) -> Vec<((i32, i32), i32)> {
-    s.split(",").map(|i| {
-        let (dir, len) = i.split_at(1);
-        let delta = match dir {
-            "U" => (0, -1),
-            "D" => (0, 1),
-            "L" => (-1, 0),
-            "R" => (1, 0),
-            _   => panic!(format!("Unknown direction {}", dir)),
-        };
-        (delta, len.parse().unwrap())
-    }).collect()
+    s.split(",")
+        .map(|i| {
+            let (dir, len) = i.split_at(1);
+            let delta = match dir {
+                "U" => (0, -1),
+                "D" => (0, 1),
+                "L" => (-1, 0),
+                "R" => (1, 0),
+                _ => panic!(format!("Unknown direction {}", dir)),
+            };
+            (delta, len.parse().unwrap())
+        })
+        .collect()
 }
 
-fn get_wire_positions(
-    wire: &Vec<((i32, i32), i32)>,
-) -> HashMap<(i32, i32), i32> {
+fn get_wire_positions(wire: &Vec<((i32, i32), i32)>) -> HashMap<(i32, i32), i32> {
     let mut res = HashMap::new();
     let mut x = 0;
     let mut y = 0;
@@ -43,7 +43,11 @@ fn get_wire_intersections(
 }
 
 fn star1(intersections: &HashSet<(i32, i32)>) -> i32 {
-    intersections.iter().map(|(x, y)| x.abs() + y.abs()).min().unwrap()
+    intersections
+        .iter()
+        .map(|(x, y)| x.abs() + y.abs())
+        .min()
+        .unwrap()
 }
 
 fn star2(
