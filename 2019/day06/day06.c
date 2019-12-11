@@ -5,11 +5,11 @@ exit
 #endif
 
 #include <errno.h>
-#include <stdio.h>
 #include <inttypes.h>
+#include <stdio.h>
 
-#include "../c_utils/vec.h"
 #include "../c_utils/map.h"
+#include "../c_utils/vec.h"
 
 typedef struct {
     char label[4];
@@ -53,7 +53,7 @@ int32_t shortest_path_between(orbit_tree_t* tree, const orbit_label_t* start,
     path_from_root(tree, end, &path2);
 
     int32_t common_subpath_length = 0;
-    for (size_t i = 0; ; i++) {
+    for (size_t i = 0;; i++) {
         if (i >= path1.length || i >= path2.length) {
             break;
         }
@@ -64,8 +64,8 @@ int32_t shortest_path_between(orbit_tree_t* tree, const orbit_label_t* start,
         common_subpath_length++;
     }
 
-    int32_t result = (int32_t)path1.length + (int32_t)path2.length
-        - 2 * common_subpath_length;
+    int32_t result = (int32_t)path1.length + (int32_t)path2.length -
+                     2 * common_subpath_length;
 
     vec_done(&path2);
     vec_done(&path1);
@@ -106,8 +106,8 @@ void star1(orbit_tree_t* tree) {
 }
 
 void star2(orbit_tree_t* tree) {
-    orbit_label_t start = { "YOU" };
-    orbit_label_t end = { "SAN" };
+    orbit_label_t start = {"YOU"};
+    orbit_label_t end = {"SAN"};
 
     printf("%" PRId32 "\n", shortest_path_between(tree, &start, &end));
 }

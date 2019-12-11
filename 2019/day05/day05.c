@@ -5,8 +5,8 @@ exit
 #endif
 
 #include <errno.h>
-#include <stdio.h>
 #include <inttypes.h>
+#include <stdio.h>
 
 #define bool int
 #define true 1
@@ -95,43 +95,43 @@ vm_status_code vm_step(int_code_vm_t* vm, int32_t input, int32_t* output) {
 
     decode_out_t decode = vm_fetch_decode(vm);
     switch (decode.opcode) {
-        case 99:
-            vm->halted = true;
-            return VM_HALTED;
-        case 1:
-            vm_write(vm, decode.dst, decode.op1 + decode.op2);
-            vm->pc += 4;
-            return VM_CONTINUE;
-        case 2:
-            vm_write(vm, decode.dst, decode.op1 * decode.op2);
-            vm->pc += 4;
-            return VM_CONTINUE;
-        case 3:
-            vm_write(vm, decode.src, input);
-            vm->pc += 2;
-            return VM_READ_INPUT;
-        case 4:
-            *output = decode.op1;
-            vm->pc += 2;
-            return VM_HAS_OUTPUT;
-        case 5:
-            vm->pc = decode.op1 != 0 ? (size_t)decode.op2 : vm->pc + 3;
-            return VM_CONTINUE;
-        case 6:
-            vm->pc = decode.op1 == 0 ? (size_t)decode.op2 : vm->pc + 3;
-            return VM_CONTINUE;
-        case 7:
-            vm_write(vm, decode.dst, decode.op1 < decode.op2);
-            vm->pc += 4;
-            return VM_CONTINUE;
-        case 8:
-            vm_write(vm, decode.dst, decode.op1 == decode.op2);
-            vm->pc += 4;
-            return VM_CONTINUE;
-        default:
-            printf("Unknown opcode %" PRId32 "\n", decode.opcode);
-            exit(1);
-            return VM_CONTINUE;
+    case 99:
+        vm->halted = true;
+        return VM_HALTED;
+    case 1:
+        vm_write(vm, decode.dst, decode.op1 + decode.op2);
+        vm->pc += 4;
+        return VM_CONTINUE;
+    case 2:
+        vm_write(vm, decode.dst, decode.op1 * decode.op2);
+        vm->pc += 4;
+        return VM_CONTINUE;
+    case 3:
+        vm_write(vm, decode.src, input);
+        vm->pc += 2;
+        return VM_READ_INPUT;
+    case 4:
+        *output = decode.op1;
+        vm->pc += 2;
+        return VM_HAS_OUTPUT;
+    case 5:
+        vm->pc = decode.op1 != 0 ? (size_t)decode.op2 : vm->pc + 3;
+        return VM_CONTINUE;
+    case 6:
+        vm->pc = decode.op1 == 0 ? (size_t)decode.op2 : vm->pc + 3;
+        return VM_CONTINUE;
+    case 7:
+        vm_write(vm, decode.dst, decode.op1 < decode.op2);
+        vm->pc += 4;
+        return VM_CONTINUE;
+    case 8:
+        vm_write(vm, decode.dst, decode.op1 == decode.op2);
+        vm->pc += 4;
+        return VM_CONTINUE;
+    default:
+        printf("Unknown opcode %" PRId32 "\n", decode.opcode);
+        exit(1);
+        return VM_CONTINUE;
     }
 }
 
@@ -149,17 +149,17 @@ void vm_run_until_complete(int_code_vm_t* vm, vec_int32_t* inputs,
         }
 
         switch (vm_step(vm, next_input, &output)) {
-            case VM_READ_INPUT:
-                input_index++;
-                break;
-            case VM_HAS_OUTPUT:
-                vec_push(outputs, output);
-                break;
-            case VM_CONTINUE:
-                break;
-            case VM_HALTED:
-            default:
-                return;
+        case VM_READ_INPUT:
+            input_index++;
+            break;
+        case VM_HAS_OUTPUT:
+            vec_push(outputs, output);
+            break;
+        case VM_CONTINUE:
+            break;
+        case VM_HALTED:
+        default:
+            return;
         }
     }
 }

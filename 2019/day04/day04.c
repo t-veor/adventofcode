@@ -5,8 +5,8 @@ exit
 #endif
 
 #include <errno.h>
-#include <stdio.h>
 #include <inttypes.h>
+#include <stdio.h>
 
 #include "../c_utils/vec.h"
 

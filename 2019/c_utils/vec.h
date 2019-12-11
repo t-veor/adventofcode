@@ -68,7 +68,7 @@ void __vec_reverse(size_t data_size, size_t length, char* data) {
 #define vec_clear(v)                                                           \
     do {                                                                       \
         (v)->length = 0;                                                       \
-    } while(0)
+    } while (0)
 
 #define vec_reverse(v)                                                         \
     __vec_reverse(sizeof(*(v)->data), (v)->length, (char*)(v)->data)
