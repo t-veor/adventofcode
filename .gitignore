@@ -8,3 +8,4 @@
 *.a
 *.hi
 *.exe
+__pycache__
