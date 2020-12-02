@@ -8,8 +8,8 @@ exit
 #include <inttypes.h>
 #include <stdio.h>
 
-#include "../c_utils/map.h"
-#include "../c_utils/vec.h"
+#include "../../c_utils/map.h"
+#include "../../c_utils/vec.h"
 
 typedef struct {
     char label[4];
