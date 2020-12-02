@@ -7,7 +7,7 @@ exit
 #include <errno.h>
 #include <stdio.h>
 
-#include "../c_utils/vec.h"
+#include "../../c_utils/vec.h"
 
 typedef vec_t(size_t) vec_size_t;
 

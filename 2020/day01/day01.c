@@ -27,39 +27,29 @@ void read_input(char* filename, int_vec_t* vec) {
     fclose(file);
 }
 
-int32_t fuel_reqs(int32_t mass) {
-    return mass / 3 - 2;
-}
-
-int32_t real_fuel_reqs(int32_t mass) {
-    int32_t remaining = mass;
-    int32_t total = 0;
-
-    while (1) {
-        remaining = remaining / 3 - 2;
-        if (remaining < 0) {
-            break;
-        }
-        total += remaining;
-    }
-
-    return total;
-}
-
 void star1(int_vec_t* input) {
-    int32_t total = 0;
     for (size_t i = 0; i < input->length; i++) {
-        total += fuel_reqs(input->data[i]);
+        for (size_t j = i + 1; j < input->length; j++) {
+            if (input->data[i] + input->data[j] == 2020) {
+                printf("%" PRId32 "\n", input->data[i] * input->data[j]);
+                return;
+            }
+        }
     }
-    printf("%" PRId32 "\n", total);
 }
 
 void star2(int_vec_t* input) {
-    int32_t total = 0;
     for (size_t i = 0; i < input->length; i++) {
-        total += real_fuel_reqs(input->data[i]);
+        for (size_t j = i + 1; j < input->length; j++) {
+            for (size_t k = j + 1; k < input->length; k++) {
+                if (input->data[i] + input->data[j] + input->data[k] == 2020) {
+                    printf("%" PRId32 "\n",
+                           input->data[i] * input->data[j] * input->data[k]);
+                    return;
+                }
+            }
+        }
     }
-    printf("%" PRId32 "\n", total);
 }
 
 int main(int argc, char** argv) {

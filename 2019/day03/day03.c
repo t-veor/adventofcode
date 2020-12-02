@@ -7,8 +7,8 @@ exit
 #include <errno.h>
 #include <stdio.h>
 
-#include "../c_utils/map.h"
-#include "../c_utils/vec.h"
+#include "../../c_utils/map.h"
+#include "../../c_utils/vec.h"
 
 typedef enum {
     U,

@@ -12,7 +12,7 @@ exit
 #define true 1
 #define false 0
 
-#include "../c_utils/vec.h"
+#include "../../c_utils/vec.h"
 
 typedef vec_t(int32_t) vec_int32_t;
 
