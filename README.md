@@ -8,10 +8,12 @@ On systems that support the shebang, you should be able to just do
 `./filename.ext` to execute solution files as a script.
 
 ### Python
+
 I run my Python files using `python` in the terminal. Simply `cd` to the correct
 directory and run the script as `python filename.py`.
 
 ### Haskell
+
 I run my Haskell files as scripts with
 [`stack`](https://www.haskellstack.org/), by `cd`-ing to the right directory
 and running `stack filename.hs`. The Haskell files are set up with the right
@@ -21,11 +23,15 @@ quite slow when run in interpreted mode, you can run
 faster executable.
 
 ### Rust
-I use [`cargo-script`](https://github.com/DanielKeep/cargo-script) to run Rust
-files as scripts. After installing `cargo-script`, `cd` to the correct directory
-and run `cargo script filename.rs`.
+
+I use [`rust-script`](https://github.com/fornwall/rust-script) to run Rust files
+as scripts. After installing by running `cargo install rust-script`, `cd` to the
+correct directory and run `cargo script filename.rs`. There are some helper
+scripts in the `scripts/` directory to help set up rust-analyzer for these
+script files.
 
 ### C
+
 There's a bit of hackery to get the C files to also execute as a bash script
 that compiles and executes itself if you run `./filename.c`, but otherwise they
 are self-contained and you should be able to just run
