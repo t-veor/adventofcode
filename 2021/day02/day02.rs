@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 
 use std::str::FromStr;
 

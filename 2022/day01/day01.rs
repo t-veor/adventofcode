@@ -1,4 +1,8 @@
 #!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 fn parse_input(input: String) -> Vec<Vec<i32>> {
     let mut elves = Vec::new();
     let mut curr_elf = Vec::new();

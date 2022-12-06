@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 use std::collections::HashMap;
 use std::collections::HashSet;
 
@@ -11,7 +15,7 @@ fn parse_wire(s: &str) -> Vec<((i32, i32), i32)> {
                 "D" => (0, 1),
                 "L" => (-1, 0),
                 "R" => (1, 0),
-                _ => panic!(format!("Unknown direction {}", dir)),
+                _ => panic!("Unknown direction {}", dir),
             };
             (delta, len.parse().unwrap())
         })

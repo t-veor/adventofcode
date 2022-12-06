@@ -26,7 +26,7 @@ faster executable.
 
 I use [`rust-script`](https://github.com/fornwall/rust-script) to run Rust files
 as scripts. After installing by running `cargo install rust-script`, `cd` to the
-correct directory and run `cargo script filename.rs`. There are some helper
+correct directory and run `rust-script filename.rs`. There are some helper
 scripts in the `scripts/` directory to help set up rust-analyzer for these
 script files.
 

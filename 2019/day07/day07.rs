@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 struct IntCodeVM {
     memory: Vec<i32>,
     pc: usize,
@@ -113,7 +117,7 @@ impl IntCodeVM {
                 self.pc += 4;
                 VMStatus::Continue
             }
-            _ => panic!(format!("Unknown opcode {}", opcode)),
+            _ => panic!("Unknown opcode {}", opcode),
         }
     }
 

@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 
 fn count_bits(input: &[Vec<u8>], bit: usize) -> (u32, u32) {
     let mut ones = 0;

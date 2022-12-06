@@ -4,14 +4,18 @@ import os
 from pathlib import Path
 
 TEMPLATE = """#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 fn parse_input(input: String) -> () {
 }
 
-fn star1(input: &()) -> () {
+fn star1(input: &()) -> i32 {
     todo!()
 }
 
-fn star2(input: &()) -> () {
+fn star2(input: &()) -> i32 {
     todo!()
 }
 

@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 
 fn count_trees(grid: &Vec<Vec<bool>>, angle: (usize, usize)) -> usize {
     let mut count = 0;

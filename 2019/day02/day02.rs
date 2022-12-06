@@ -1,4 +1,8 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 fn run_program(input: &Vec<usize>, noun: usize, verb: usize) -> usize {
     let mut memory = input.clone();
     memory[1] = noun;
@@ -20,7 +24,7 @@ fn run_program(input: &Vec<usize>, noun: usize, verb: usize) -> usize {
         memory[dst] = match opcode {
             1 => op1 + op2,
             2 => op1 * op2,
-            _ => panic!(format!("Unknown opcode {}", opcode)),
+            _ => panic!("Unknown opcode {}", opcode),
         };
 
         pc += 4;

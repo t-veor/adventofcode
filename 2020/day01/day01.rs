@@ -1,8 +1,12 @@
-#!/usr/bin/env run-cargo-script
+#!/usr/bin/env rust-script
+//! ```cargo
+//! [package]
+//! edition = "2021"
+//! ```
 
 fn star1(input: &[i32]) -> i32 {
     for i in 0..input.len() {
-        for j in i+1..input.len() {
+        for j in i + 1..input.len() {
             let (a, b) = (input[i], input[j]);
             if a + b == 2020 {
                 return a * b;
@@ -14,8 +18,8 @@ fn star1(input: &[i32]) -> i32 {
 
 fn star2(input: &[i32]) -> i32 {
     for i in 0..input.len() {
-        for j in i+1..input.len() {
-            for k in j+1..input.len() {
+        for j in i + 1..input.len() {
+            for k in j + 1..input.len() {
                 let (a, b, c) = (input[i], input[j], input[k]);
                 if a + b + c == 2020 {
                     return a * b * c;

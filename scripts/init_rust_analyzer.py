@@ -15,7 +15,7 @@ except OSError:
 
 if "sysroot_src" not in rust_project_json:
     rustc_process = subprocess.run(["rustc", "--print", "sysroot"], capture_output=True, text=True)
-    rust_project_json["sysroot_src"] = os.path.join(rustc_process.stdout.rstrip(), "/lib/rustlib/src/rust/library")
+    rust_project_json["sysroot_src"] = os.path.join(rustc_process.stdout.rstrip(), "lib/rustlib/src/rust/library")
 
 if "crates" not in rust_project_json:
     rust_project_json["crates"] = []
