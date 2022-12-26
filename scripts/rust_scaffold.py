@@ -10,6 +10,7 @@ TEMPLATE = """#!/usr/bin/env rust-script
 //! [package]
 //! edition = "2021"
 //! ```
+
 fn parse_input(input: String) -> () {
 }
 
