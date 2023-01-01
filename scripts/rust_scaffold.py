@@ -11,7 +11,7 @@ TEMPLATE = """#!/usr/bin/env rust-script
 //! edition = "2021"
 //! ```
 
-fn parse_input(input: String) -> () {
+fn parse_input(input: &str) -> () {
 }
 
 fn star1(input: &()) -> i32 {
@@ -27,7 +27,7 @@ fn main() {
     let filename = args.get(1).map(|s| &s[..]).unwrap_or("input.txt");
     let input = std::fs::read_to_string(filename).unwrap();
 
-    let input = parse_input(input);
+    let input = parse_input(&input);
 
     println!("{}", star1(&input));
     println!("{}", star2(&input));
