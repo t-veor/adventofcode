@@ -12,15 +12,15 @@ fn parse_input(input: &str) -> &str {
 
 #[derive(Debug)]
 struct KnotHash {
-    elements: Vec<usize>,
+    elements: [u8; 256],
     current_position: usize,
     skip_size: usize,
 }
 
 impl KnotHash {
-    fn new(size: usize) -> Self {
+    fn new() -> Self {
         Self {
-            elements: Vec::from_iter(0..size),
+            elements: (0..=255).collect::<Vec<_>>().try_into().unwrap(),
             current_position: 0,
             skip_size: 0,
         }
@@ -69,7 +69,7 @@ impl KnotHash {
 impl LowerHex for KnotHash {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for i in self.dense_hash() {
-            f.write_fmt(format_args!("{i:02x}"));
+            f.write_fmt(format_args!("{i:02x}"))?;
         }
         Ok(())
     }
@@ -78,15 +78,15 @@ impl LowerHex for KnotHash {
 fn star1(input: &str) -> usize {
     let lengths = input.split(',').map(|m| m.parse().unwrap());
 
-    let mut hash = KnotHash::new(256);
+    let mut hash = KnotHash::new();
     for length in lengths {
         hash.perform_reverse(length);
     }
-    hash.elements[0] * hash.elements[1]
+    hash.elements[0] as usize * hash.elements[1] as usize
 }
 
 fn star2(input: &str) -> String {
-    let mut hash = KnotHash::new(256);
+    let mut hash = KnotHash::new();
     hash.run_rounds(input.as_bytes());
     format!("{hash:x}")
 }
