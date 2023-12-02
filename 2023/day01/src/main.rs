@@ -1,6 +1,5 @@
-use std::borrow::Cow;
-
 use regex::Regex;
+use utils::read_input_file;
 
 fn star1(input: &str) -> i32 {
     input
@@ -57,14 +56,7 @@ fn star2(input: &str) -> i32 {
 }
 
 fn main() {
-    let input = {
-        let args: Vec<_> = std::env::args().collect();
-        if let Some(filename) = args.get(1).map(|s| &s[..]) {
-            Cow::from(std::fs::read_to_string(filename).unwrap())
-        } else {
-            Cow::from(include_str!("../input.txt"))
-        }
-    };
+    let input = read_input_file!();
 
     println!("{}", star1(&input));
     println!("{}", star2(&input));
