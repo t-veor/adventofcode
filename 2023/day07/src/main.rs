@@ -122,6 +122,8 @@ impl Hand {
             freqs[card as usize] += 1;
         }
 
+        // Extract the joker count, don't include jokers in the counts of the
+        // other cards
         let joker_count = freqs[Card::J as usize];
         freqs[Card::J as usize] = 0;
 
@@ -139,7 +141,7 @@ impl Hand {
             // * freqs[1] + b = 2 (where b is the number of jokers needed to make up a pair)
             // * a + b <= joker_count
             // Combining these inequalities actually just gives us the
-            // straightforward inequality freqs[0] + freqs[1] + joker_count <= 5.
+            // straightforward inequality freqs[0] + freqs[1] + joker_count >= 5.
             HandType::FullHouse
         } else if freqs[0] + joker_count >= 3 {
             HandType::ThreeOfAKind
