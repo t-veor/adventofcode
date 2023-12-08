@@ -1,3 +1,5 @@
+pub mod discrete_math;
+
 #[macro_export]
 macro_rules! read_input_file {
     () => {{
