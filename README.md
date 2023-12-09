@@ -31,6 +31,13 @@ faster executable.
 
 ### Rust
 
+### 2023 onwards
+
+Rust solutions are set up in a cargo workspace for each year. To run e.g. the
+day 7 solution for 2023, `cd 2023`, and then run `cargo run --bin day07`.
+
+### Prior to 2023
+
 I use [`rust-script`](https://github.com/fornwall/rust-script) to run Rust files
 as scripts. After installing by running `cargo install rust-script`, `cd` to the
 correct directory and run `rust-script filename.rs`. There are some helper
