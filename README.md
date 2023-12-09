@@ -2,6 +2,13 @@
 
 Just a place where I can dump my Advent of Code solutions.
 
+## Input files
+
+Note that input files need to be manually supplied. The solutions for each day
+expect the puzzle input to be in a file called `input.txt` in the local
+directory, e.g. the 2023 day 7 solution expects the input to be in
+`2023/day07/input.txt`.
+
 ## Running solutions
 
 On systems that support the shebang, you should be able to just do
