@@ -20,7 +20,7 @@ fn parse_input(input: &str) -> Vec<Game> {
         for round in game_rounds.split("; ") {
             let mut round_totals = [0; 3];
             for ball_group in round.split(", ") {
-                let (ball_count, ball_color) = ball_group.split_once(" ").unwrap();
+                let (ball_count, ball_color) = ball_group.split_once(' ').unwrap();
                 let idx = match ball_color {
                     "red" => RED,
                     "green" => GREEN,

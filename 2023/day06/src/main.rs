@@ -56,7 +56,7 @@ fn parse_race(input: &str) -> Race {
         .unwrap()
         .strip_prefix("Time:")
         .unwrap()
-        .replace(" ", "")
+        .replace(' ', "")
         .parse()
         .unwrap();
 
@@ -65,7 +65,7 @@ fn parse_race(input: &str) -> Race {
         .unwrap()
         .strip_prefix("Distance:")
         .unwrap()
-        .replace(" ", "")
+        .replace(' ', "")
         .parse()
         .unwrap();
 

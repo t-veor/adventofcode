@@ -53,7 +53,7 @@ pub fn chinese_remainder_theorem_non_coprime(residues: &[i64], bases: &[i64]) ->
         return None;
     }
 
-    if residues.len() == 0 {
+    if residues.is_empty() {
         return None;
     }
 
@@ -74,7 +74,7 @@ pub fn chinese_remainder_theorem_non_coprime(residues: &[i64], bases: &[i64]) ->
         let sigma = a - m * u * lambda;
 
         a = sigma;
-        m = m * (n / g);
+        m *= n / g;
     }
 
     Some(a.rem_euclid(m))

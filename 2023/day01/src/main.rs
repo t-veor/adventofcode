@@ -5,7 +5,7 @@ fn star1(input: &str) -> i32 {
     input
         .split_ascii_whitespace()
         .map(|line| {
-            let mut iter = line.as_bytes().into_iter().filter(|c| c.is_ascii_digit());
+            let mut iter = line.as_bytes().iter().filter(|c| c.is_ascii_digit());
             let first = iter.next().unwrap();
             let last = iter.last().unwrap_or(first);
 

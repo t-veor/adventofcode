@@ -31,7 +31,7 @@ impl Map {
             }
         }
 
-        return x;
+        x
     }
 
     fn map_set(&self, mut src_set: IntervalSet<i64>) -> IntervalSet<i64> {

@@ -33,7 +33,7 @@ fn star1(input: &[Card]) -> i32 {
         .map(|card| card.has.iter().filter(|i| card.winning.contains(i)).count())
         .map(|num_matching| {
             if num_matching > 0 {
-                1 << num_matching - 1
+                1 << (num_matching - 1)
             } else {
                 0
             }

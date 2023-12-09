@@ -113,7 +113,7 @@ impl Hand {
     }
 
     fn sort_key(&self) -> (HandType, [Card; 5]) {
-        (self.hand_type(), self.cards.clone())
+        (self.hand_type(), self.cards)
     }
 
     fn part2_hand_type(&self) -> HandType {
