@@ -57,10 +57,6 @@ pub fn chinese_remainder_theorem_non_coprime(residues: &[i64], bases: &[i64]) ->
         return None;
     }
 
-    if residues.len() == 1 {
-        return Some(residues[0]);
-    }
-
     let mut a = residues[0];
     let mut m = bases[0];
     for i in 1..residues.len() {
