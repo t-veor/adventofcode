@@ -25,16 +25,6 @@ fn extrapolate(sequence: &[i32]) -> i32 {
     }
 }
 
-fn extrapolate_backwards(sequence: &[i32]) -> i32 {
-    if sequence.iter().all(|&x| x == 0) {
-        0
-    } else {
-        let deltas = get_deltas(sequence);
-        let previous_delta = extrapolate_backwards(&deltas);
-        sequence.first().unwrap() - previous_delta
-    }
-}
-
 fn star1(sequences: &[Vec<i32>]) -> i32 {
     sequences.iter().map(|sequence| extrapolate(sequence)).sum()
 }
@@ -42,7 +32,11 @@ fn star1(sequences: &[Vec<i32>]) -> i32 {
 fn star2(sequences: &[Vec<i32>]) -> i32 {
     sequences
         .iter()
-        .map(|sequence| extrapolate_backwards(sequence))
+        .map(|sequence| {
+            let mut sequence = sequence.clone();
+            sequence.reverse();
+            extrapolate(&sequence)
+        })
         .sum()
 }
 
