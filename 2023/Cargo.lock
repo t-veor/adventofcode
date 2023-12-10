@@ -33,6 +33,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
 
 [[package]]
+name = "bitflags"
+version = "2.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "327762f6e5a765692301e5bb513e0d9fef63be86bbc14528052b1cd3e6f03e07"
+
+[[package]]
 name = "day01"
 version = "0.1.0"
 dependencies = [
@@ -97,6 +103,14 @@ dependencies = [
 name = "day09"
 version = "0.1.0"
 dependencies = [
+ "utils",
+]
+
+[[package]]
+name = "day10"
+version = "0.1.0"
+dependencies = [
+ "bitflags",
  "utils",
 ]
 
