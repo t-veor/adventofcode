@@ -1,6 +1,7 @@
-use std::collections::HashMap;
-
-use utils::read_input_file;
+use utils::{
+    cycle_detection::{self, apply_iterations_using_cycle_skip},
+    read_input_file,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Rocks {
@@ -112,36 +113,18 @@ fn star1(mut rocks: Rocks) -> i64 {
     rocks.calc_load_north()
 }
 
-fn star2(mut rocks: Rocks) -> i64 {
-    const TARGET_CYCLES: i64 = 1_000_000_000;
+fn star2(rocks: Rocks) -> i64 {
+    const TARGET_CYCLES: u64 = 1_000_000_000;
 
-    let mut seen_rocks = HashMap::new();
-    seen_rocks.insert(rocks.clone(), 0i64);
+    let next = |mut rocks: Rocks| {
+        rocks.spin_cycle();
+        rocks
+    };
 
-    let mut skipped = false;
-    let mut curr_cycles = 1;
+    let cycle_info = cycle_detection::hashmap(rocks.clone(), next);
+    let resulting_rocks = apply_iterations_using_cycle_skip(cycle_info, TARGET_CYCLES, next);
 
-    while curr_cycles <= TARGET_CYCLES {
-        let mut next_rocks = rocks.clone();
-        next_rocks.spin_cycle();
-
-        if !skipped {
-            if let Some(prev_cycles) = seen_rocks.insert(next_rocks.clone(), curr_cycles) {
-                let cycle_length = curr_cycles - prev_cycles;
-
-                let remaining = TARGET_CYCLES - curr_cycles;
-                let skip_amount = (remaining / cycle_length) * cycle_length;
-
-                curr_cycles += skip_amount;
-                skipped = true;
-            }
-        }
-
-        rocks = next_rocks;
-        curr_cycles += 1;
-    }
-
-    rocks.calc_load_north()
+    resulting_rocks.calc_load_north()
 }
 
 fn main() {
