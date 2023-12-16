@@ -1,3 +1,4 @@
+pub mod cycle_detection;
 pub mod discrete_math;
 
 #[macro_export]
