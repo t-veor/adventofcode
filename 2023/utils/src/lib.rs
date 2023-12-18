@@ -28,6 +28,11 @@ pub enum Direction {
 impl Direction {
     pub const ALL: [Self; 4] = [Self::North, Self::East, Self::South, Self::West];
 
+    pub const UP: Self = Self::North;
+    pub const RIGHT: Self = Self::East;
+    pub const DOWN: Self = Self::South;
+    pub const LEFT: Self = Self::West;
+
     pub fn delta(self) -> (isize, isize) {
         match self {
             Direction::North => (0, -1),
@@ -40,6 +45,11 @@ impl Direction {
     pub fn step(self, pos: (isize, isize)) -> (isize, isize) {
         let (dx, dy) = self.delta();
         (pos.0 + dx, pos.1 + dy)
+    }
+
+    pub fn step_n(self, pos: (isize, isize), n: isize) -> (isize, isize) {
+        let (dx, dy) = self.delta();
+        (pos.0 + dx * n, pos.1 + dy * n)
     }
 
     pub fn rotate_cw(self) -> Self {
