@@ -1,8 +1,7 @@
 [package]
-name = "utils"
+name = "day04"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-thiserror = "2.0.4"
-num_enum = "0.7.3"
+utils = { path = "../utils" }
