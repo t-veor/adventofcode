@@ -59,6 +59,27 @@ impl CharGrid {
         }
     }
 
+    pub fn in_bounds(&self, coords: (isize, isize)) -> bool {
+        self.index_from_coords(coords).is_some()
+    }
+
+    pub fn coords_from_index(&self, index: usize) -> Option<(isize, isize)> {
+        if index < self.grid.len() {
+            let y = index / self.width();
+            let x = index % self.height();
+            Some((x as isize, y as isize))
+        } else {
+            None
+        }
+    }
+
+    pub fn find(&self, target: char) -> Option<(isize, isize)> {
+        self.grid
+            .iter()
+            .position(|&c| c == target)
+            .and_then(|idx| self.coords_from_index(idx))
+    }
+
     pub fn get(&self, coords: (isize, isize)) -> Option<char> {
         let index = self.index_from_coords(coords)?;
         self.grid.get(index).copied()
