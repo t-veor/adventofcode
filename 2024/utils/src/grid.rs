@@ -1,13 +1,14 @@
 use std::fmt::Debug;
 use std::hash::Hash;
 
+use glam::{ivec2, IVec2};
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 use thiserror::Error;
 
 #[derive(Clone)]
 pub struct CharGrid {
     grid: Vec<char>,
-    size: (usize, usize),
+    size: (i32, i32),
 }
 
 impl CharGrid {
@@ -38,61 +39,67 @@ impl CharGrid {
 
         Some(Self {
             grid,
-            size: (width?, height),
+            size: (
+                width?
+                    .try_into()
+                    .expect("Grid is too big to fit in an i32!"),
+                height
+                    .try_into()
+                    .expect("Grid is too big to fit in an i32!"),
+            ),
         })
     }
 
-    pub fn width(&self) -> usize {
+    pub fn width(&self) -> i32 {
         self.size.0
     }
 
-    pub fn height(&self) -> usize {
+    pub fn height(&self) -> i32 {
         self.size.1
     }
 
-    pub fn index_from_coords(&self, coords: (isize, isize)) -> Option<usize> {
-        let (x, y) = coords;
-        if (0..self.width() as isize).contains(&x) && (0..self.height() as isize).contains(&y) {
-            Some((y * self.width() as isize + x) as usize)
+    pub fn index_from_coords(&self, coords: IVec2) -> Option<usize> {
+        if (0..self.width()).contains(&coords.x) && (0..self.height()).contains(&coords.y) {
+            Some((coords.y * self.width() + coords.x) as usize)
         } else {
             None
         }
     }
 
-    pub fn in_bounds(&self, coords: (isize, isize)) -> bool {
+    pub fn in_bounds(&self, coords: IVec2) -> bool {
         self.index_from_coords(coords).is_some()
     }
 
-    pub fn coords_from_index(&self, index: usize) -> Option<(isize, isize)> {
+    pub fn coords_from_index(&self, index: usize) -> Option<IVec2> {
         if index < self.grid.len() {
-            let y = index / self.width();
-            let x = index % self.height();
-            Some((x as isize, y as isize))
+            let y = index / self.width() as usize;
+            let x = index % self.height() as usize;
+            Some(ivec2(x as _, y as _))
         } else {
             None
         }
     }
 
-    pub fn find(&self, target: char) -> Option<(isize, isize)> {
+    pub fn find(&self, target: char) -> Option<IVec2> {
         self.grid
             .iter()
             .position(|&c| c == target)
             .and_then(|idx| self.coords_from_index(idx))
     }
 
-    pub fn get(&self, coords: (isize, isize)) -> Option<char> {
+    pub fn get(&self, coords: IVec2) -> Option<char> {
         let index = self.index_from_coords(coords)?;
         self.grid.get(index).copied()
     }
 
-    pub fn get_mut(&mut self, coords: (isize, isize)) -> Option<&mut char> {
+    pub fn get_mut(&mut self, coords: IVec2) -> Option<&mut char> {
         let index = self.index_from_coords(coords)?;
         self.grid.get_mut(index)
     }
 
-    pub fn coord_iter(&self) -> impl Iterator<Item = (isize, isize)> {
+    pub fn coord_iter(&self) -> impl Iterator<Item = IVec2> {
         let (width, height) = self.size;
-        (0..height).flat_map(move |y| (0..width).map(move |x| (x as isize, y as isize)))
+        (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
     }
 }
 
@@ -113,23 +120,21 @@ impl OrthoDir {
     pub const DOWN: Self = Self::South;
     pub const LEFT: Self = Self::West;
 
-    pub fn delta(self) -> (isize, isize) {
+    pub fn delta(self) -> IVec2 {
         match self {
-            OrthoDir::North => (0, -1),
-            OrthoDir::East => (1, 0),
-            OrthoDir::South => (0, 1),
-            OrthoDir::West => (-1, 0),
+            OrthoDir::North => ivec2(0, -1),
+            OrthoDir::East => ivec2(1, 0),
+            OrthoDir::South => ivec2(0, 1),
+            OrthoDir::West => ivec2(-1, 0),
         }
     }
 
-    pub fn step(self, pos: (isize, isize)) -> (isize, isize) {
-        let (dx, dy) = self.delta();
-        (pos.0 + dx, pos.1 + dy)
+    pub fn step(self, pos: IVec2) -> IVec2 {
+        pos + self.delta()
     }
 
-    pub fn step_n(self, pos: (isize, isize), n: isize) -> (isize, isize) {
-        let (dx, dy) = self.delta();
-        (pos.0 + dx * n, pos.1 + dy * n)
+    pub fn step_n(self, pos: IVec2, n: i32) -> IVec2 {
+        pos + n * self.delta()
     }
 
     pub fn rotate_cw(self) -> Self {
@@ -188,27 +193,25 @@ impl DiagDir {
     pub const DOWN: Self = Self::South;
     pub const LEFT: Self = Self::West;
 
-    pub fn delta(self) -> (isize, isize) {
+    pub fn delta(self) -> IVec2 {
         match self {
-            DiagDir::North => (0, -1),
-            DiagDir::NorthEast => (1, -1),
-            DiagDir::East => (1, 0),
-            DiagDir::SouthEast => (1, 1),
-            DiagDir::South => (0, 1),
-            DiagDir::SouthWest => (-1, 1),
-            DiagDir::West => (-1, 0),
-            DiagDir::NorthWest => (-1, -1),
+            DiagDir::North => ivec2(0, -1),
+            DiagDir::NorthEast => ivec2(1, -1),
+            DiagDir::East => ivec2(1, 0),
+            DiagDir::SouthEast => ivec2(1, 1),
+            DiagDir::South => ivec2(0, 1),
+            DiagDir::SouthWest => ivec2(-1, 1),
+            DiagDir::West => ivec2(-1, 0),
+            DiagDir::NorthWest => ivec2(-1, -1),
         }
     }
 
-    pub fn step(self, pos: (isize, isize)) -> (isize, isize) {
-        let (dx, dy) = self.delta();
-        (pos.0 + dx, pos.1 + dy)
+    pub fn step(self, pos: IVec2) -> IVec2 {
+        pos + self.delta()
     }
 
-    pub fn step_n(self, pos: (isize, isize), n: isize) -> (isize, isize) {
-        let (dx, dy) = self.delta();
-        (pos.0 + dx * n, pos.1 + dy * n)
+    pub fn step_n(self, pos: IVec2, n: i32) -> IVec2 {
+        pos + n * self.delta()
     }
 
     pub fn rotate_cw(self) -> Self {

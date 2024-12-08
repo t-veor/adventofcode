@@ -1,11 +1,12 @@
 use std::collections::HashSet;
 
 use utils::{
+    glam::IVec2,
     grid::{CharGrid, OrthoDir},
     read_input_file,
 };
 
-fn parse_input(input: &str) -> (CharGrid, (isize, isize)) {
+fn parse_input(input: &str) -> (CharGrid, IVec2) {
     let mut grid = CharGrid::from_input_str(input).unwrap();
     let starting_position = grid.find('^').unwrap();
     *grid.get_mut(starting_position).unwrap() = '.';
@@ -15,11 +16,11 @@ fn parse_input(input: &str) -> (CharGrid, (isize, isize)) {
 
 #[derive(Debug)]
 enum PatrolResult {
-    Exited(HashSet<(isize, isize)>),
+    Exited(HashSet<IVec2>),
     Looped,
 }
 
-fn guard_patrol(grid: &CharGrid, starting_pos: (isize, isize)) -> PatrolResult {
+fn guard_patrol(grid: &CharGrid, starting_pos: IVec2) -> PatrolResult {
     let mut visited = HashSet::new();
     let mut visited_states = HashSet::new();
 
@@ -47,14 +48,14 @@ fn guard_patrol(grid: &CharGrid, starting_pos: (isize, isize)) -> PatrolResult {
     PatrolResult::Exited(visited)
 }
 
-fn star1(grid: &CharGrid, starting_pos: (isize, isize)) -> usize {
+fn star1(grid: &CharGrid, starting_pos: IVec2) -> usize {
     match guard_patrol(grid, starting_pos) {
         PatrolResult::Exited(visited) => visited.len(),
         PatrolResult::Looped => panic!("Loop in starting input?"),
     }
 }
 
-fn star2(grid: &CharGrid, starting_pos: (isize, isize)) -> usize {
+fn star2(grid: &CharGrid, starting_pos: IVec2) -> usize {
     // Do an initial scan to find squares for which putting an obstruction would
     // do anything
     let visited = match guard_patrol(grid, starting_pos) {

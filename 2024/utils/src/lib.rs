@@ -3,6 +3,8 @@ pub mod discrete_math;
 pub mod grid;
 pub mod pathfinding;
 
+pub use glam;
+
 #[macro_export]
 macro_rules! read_input_file {
     () => {{

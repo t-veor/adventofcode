@@ -1,9 +1,10 @@
 use utils::{
+    glam::{ivec2, IVec2},
     grid::{CharGrid, DiagDir},
     read_input_file,
 };
 
-fn get_word(grid: &CharGrid, mut coord: (isize, isize), dir: DiagDir, max_len: usize) -> String {
+fn get_word(grid: &CharGrid, mut coord: IVec2, dir: DiagDir, max_len: usize) -> String {
     let mut word = String::new();
 
     for _ in 0..max_len {
@@ -18,9 +19,9 @@ fn get_word(grid: &CharGrid, mut coord: (isize, isize), dir: DiagDir, max_len: u
     word
 }
 
-fn find_x_mas(grid: &CharGrid, coord: (isize, isize)) -> bool {
+fn find_x_mas(grid: &CharGrid, coord: IVec2) -> bool {
     let diag_word = get_word(grid, coord, DiagDir::SouthEast, 3);
-    let antidiag_word = get_word(grid, (coord.0, coord.1 + 2), DiagDir::NorthEast, 3);
+    let antidiag_word = get_word(grid, coord + ivec2(0, 2), DiagDir::NorthEast, 3);
 
     (diag_word == "MAS" || diag_word == "SAM") && (antidiag_word == "MAS" || antidiag_word == "SAM")
 }
