@@ -1,18 +1,38 @@
-use std::fmt::Debug;
 use std::hash::Hash;
+use std::ops::IndexMut;
+use std::{fmt::Debug, ops::Index};
 
 use glam::{ivec2, IVec2};
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 use thiserror::Error;
 
 #[derive(Clone)]
-pub struct CharGrid {
-    grid: Vec<char>,
+pub struct DenseGrid<T> {
+    grid: Vec<T>,
     size: (i32, i32),
 }
 
-impl CharGrid {
-    pub fn from_input_str(input: &str) -> Option<Self> {
+impl<T> DenseGrid<T> {
+    pub fn new(size: (i32, i32), mut init: impl FnMut(IVec2) -> T) -> Self {
+        let (width, height) = size;
+        assert!(
+            width >= 0 && height >= 0,
+            "Can't make a grid with negative size!"
+        );
+
+        let len = width * height;
+        let mut grid = Vec::with_capacity(len as usize);
+
+        for i in 0..len {
+            let y = i / width;
+            let x = i % height;
+            grid.push(init(ivec2(x as _, y as _)));
+        }
+
+        Self { grid, size }
+    }
+
+    pub fn read_from_str(input: &str, mut map: impl FnMut(char) -> T) -> Option<Self> {
         let mut width = None;
         let mut height = 0;
 
@@ -23,7 +43,7 @@ impl CharGrid {
 
             let mut this_line_width = 0;
             for char in line.chars() {
-                grid.push(char);
+                grid.push(map(char));
                 this_line_width += 1;
             }
 
@@ -50,6 +70,10 @@ impl CharGrid {
         })
     }
 
+    pub fn size(&self) -> (i32, i32) {
+        self.size
+    }
+
     pub fn width(&self) -> i32 {
         self.size.0
     }
@@ -73,26 +97,19 @@ impl CharGrid {
     pub fn coords_from_index(&self, index: usize) -> Option<IVec2> {
         if index < self.grid.len() {
             let y = index / self.width() as usize;
-            let x = index % self.height() as usize;
+            let x = index % self.width() as usize;
             Some(ivec2(x as _, y as _))
         } else {
             None
         }
     }
 
-    pub fn find(&self, target: char) -> Option<IVec2> {
-        self.grid
-            .iter()
-            .position(|&c| c == target)
-            .and_then(|idx| self.coords_from_index(idx))
-    }
-
-    pub fn get(&self, coords: IVec2) -> Option<char> {
+    pub fn get(&self, coords: IVec2) -> Option<&T> {
         let index = self.index_from_coords(coords)?;
-        self.grid.get(index).copied()
+        self.grid.get(index)
     }
 
-    pub fn get_mut(&mut self, coords: IVec2) -> Option<&mut char> {
+    pub fn get_mut(&mut self, coords: IVec2) -> Option<&mut T> {
         let index = self.index_from_coords(coords)?;
         self.grid.get_mut(index)
     }
@@ -100,6 +117,37 @@ impl CharGrid {
     pub fn coord_iter(&self) -> impl Iterator<Item = IVec2> {
         let (width, height) = self.size;
         (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
+    }
+}
+
+impl<T: PartialEq> DenseGrid<T> {
+    pub fn find(&self, target: &T) -> Option<IVec2> {
+        self.grid
+            .iter()
+            .position(|c| c == target)
+            .and_then(|idx| self.coords_from_index(idx))
+    }
+}
+
+pub type CharGrid = DenseGrid<char>;
+
+impl CharGrid {
+    pub fn from_str_chars(input: &str) -> Option<Self> {
+        Self::read_from_str(input, |c| c)
+    }
+}
+
+impl<T> Index<IVec2> for DenseGrid<T> {
+    type Output = T;
+
+    fn index(&self, index: IVec2) -> &Self::Output {
+        self.get(index).expect("Grid coords out of bounds")
+    }
+}
+
+impl<T> IndexMut<IVec2> for DenseGrid<T> {
+    fn index_mut(&mut self, index: IVec2) -> &mut Self::Output {
+        self.get_mut(index).expect("Grid coords out of bounds")
     }
 }
 
@@ -260,4 +308,12 @@ impl TryFrom<DiagDir> for OrthoDir {
     fn try_from(value: DiagDir) -> Result<Self, Self::Error> {
         value.try_as_ortho().ok_or(DiagDirConversionError)
     }
+}
+
+pub fn von_neumann_neighbors(pos: IVec2) -> [IVec2; 4] {
+    OrthoDir::ALL.map(|dir| dir.step(pos))
+}
+
+pub fn moore_neighbors(pos: IVec2) -> [IVec2; 8] {
+    DiagDir::ALL.map(|dir| dir.step(pos))
 }

@@ -8,7 +8,7 @@ fn get_word(grid: &CharGrid, mut coord: IVec2, dir: DiagDir, max_len: usize) -> 
     let mut word = String::new();
 
     for _ in 0..max_len {
-        match grid.get(coord) {
+        match grid.get(coord).copied() {
             Some(c) => word.push(c),
             None => break,
         }
@@ -30,7 +30,7 @@ fn star1(grid: &CharGrid) -> u32 {
     let mut count = 0;
 
     for coord in grid.coord_iter() {
-        if grid.get(coord) == Some('X') {
+        if grid.get(coord).copied() == Some('X') {
             for dir in DiagDir::ALL {
                 if get_word(grid, coord, dir, 4) == "XMAS" {
                     count += 1;
@@ -56,7 +56,7 @@ fn star2(grid: &CharGrid) -> u32 {
 
 fn main() {
     let input = read_input_file!();
-    let grid = CharGrid::from_input_str(&input).unwrap();
+    let grid = CharGrid::from_str_chars(&input).unwrap();
 
     println!("{}", star1(&grid));
     println!("{}", star2(&grid));

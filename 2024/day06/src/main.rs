@@ -7,8 +7,8 @@ use utils::{
 };
 
 fn parse_input(input: &str) -> (CharGrid, IVec2) {
-    let mut grid = CharGrid::from_input_str(input).unwrap();
-    let starting_position = grid.find('^').unwrap();
+    let mut grid = CharGrid::from_str_chars(input).unwrap();
+    let starting_position = grid.find(&'^').unwrap();
     *grid.get_mut(starting_position).unwrap() = '.';
 
     (grid, starting_position)
