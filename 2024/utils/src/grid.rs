@@ -118,6 +118,20 @@ impl<T> DenseGrid<T> {
         let (width, height) = self.size;
         (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
     }
+
+    pub fn von_neumann_neighbors(&self, pos: IVec2) -> Vec<IVec2> {
+        von_neumann_neighbors(pos)
+            .into_iter()
+            .filter(|&pos| self.in_bounds(pos))
+            .collect()
+    }
+
+    pub fn moore_neighbors(&self, pos: IVec2) -> Vec<IVec2> {
+        moore_neighbors(pos)
+            .into_iter()
+            .filter(|&pos| self.in_bounds(pos))
+            .collect()
+    }
 }
 
 impl<T: PartialEq> DenseGrid<T> {
@@ -209,6 +223,10 @@ impl OrthoDir {
         let raw: u8 = self.into();
         DiagDir::try_from_primitive(raw * 2).unwrap()
     }
+
+    pub fn as_index(self) -> usize {
+        u8::from(self) as usize
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, TryFromPrimitive, IntoPrimitive)]
@@ -289,6 +307,10 @@ impl DiagDir {
         } else {
             None
         }
+    }
+
+    pub fn as_index(self) -> usize {
+        u8::from(self) as usize
     }
 }
 
