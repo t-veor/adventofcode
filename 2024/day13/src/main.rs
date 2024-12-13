@@ -243,7 +243,12 @@ fn explicit_solver(machine: &Machine) -> Option<(i64, i64)> {
     let x = x.round().as_i64vec2();
 
     if x.x * button_a + x.y * button_b == prize {
-        Some(x.into())
+        // Also need a check for negative button presses...
+        if x.x < 0 || x.y < 0 {
+            None
+        } else {
+            Some(x.into())
+        }
     } else {
         None
     }

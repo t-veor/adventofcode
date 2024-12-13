@@ -59,14 +59,7 @@ impl<T> DenseGrid<T> {
 
         Some(Self {
             grid,
-            size: (
-                width?
-                    .try_into()
-                    .expect("Grid is too big to fit in an i32!"),
-                height
-                    .try_into()
-                    .expect("Grid is too big to fit in an i32!"),
-            ),
+            size: (width?, height),
         })
     }
 
