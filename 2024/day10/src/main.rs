@@ -41,7 +41,7 @@ fn dfs_find_trails(grid: &DenseGrid<u8>, start: IVec2) -> (u32, u32) {
 }
 
 fn parse_input(input: &str) -> DenseGrid<u8> {
-    DenseGrid::read_from_str(input, |c| {
+    DenseGrid::read_from_str(input, |_, c| {
         if ('0'..='9').contains(&c) {
             c as u8 - '0' as u8
         } else {

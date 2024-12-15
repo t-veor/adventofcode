@@ -32,18 +32,18 @@ impl<T> DenseGrid<T> {
         Self { grid, size }
     }
 
-    pub fn read_from_str(input: &str, mut map: impl FnMut(char) -> T) -> Option<Self> {
+    pub fn read_from_str(input: &str, mut map: impl FnMut(IVec2, char) -> T) -> Option<Self> {
         let mut width = None;
         let mut height = 0;
 
         let mut grid = Vec::new();
 
-        for line in input.trim().lines() {
+        for (y, line) in input.trim().lines().enumerate() {
             height += 1;
 
             let mut this_line_width = 0;
-            for char in line.chars() {
-                grid.push(map(char));
+            for (x, char) in line.chars().enumerate() {
+                grid.push(map(ivec2(x as _, y as _), char));
                 this_line_width += 1;
             }
 
@@ -140,7 +140,7 @@ pub type CharGrid = DenseGrid<char>;
 
 impl CharGrid {
     pub fn from_str_chars(input: &str) -> Option<Self> {
-        Self::read_from_str(input, |c| c)
+        Self::read_from_str(input, |_, c| c)
     }
 }
 
