@@ -137,16 +137,17 @@ impl DoubleWideMap {
                 // Failed move, return without changing anything
                 return false;
             } else if let Some((box_left, box_right)) = self.get_box(space_to_check) {
+                // If the box was already in the push chain, we've resolved this box already
                 if !boxes_in_push_chain.contains(&box_left) {
                     boxes_in_push_chain.push(box_left);
-                }
 
-                // Move may still be possible if the box can be pushed...
-                if dir.step(box_left) != box_right {
-                    space_check_list.push(dir.step(box_left));
-                }
-                if dir.step(box_right) != box_left {
-                    space_check_list.push(dir.step(box_right));
+                    // Move may still be possible if the box can be pushed...
+                    if dir.step(box_left) != box_right {
+                        space_check_list.push(dir.step(box_left));
+                    }
+                    if dir.step(box_right) != box_left {
+                        space_check_list.push(dir.step(box_right));
+                    }
                 }
             } else {
                 // This space is empty! We don't need to do any further checks
