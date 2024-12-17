@@ -33,7 +33,7 @@ impl<S> PartialOrd for AStarQueueItem<S> {
 
 #[derive(Debug)]
 struct AStarRecord<S> {
-    come_from: S,
+    come_from: Option<S>,
     best_cost: i64,
 }
 
@@ -51,12 +51,20 @@ where
     let mut priority_queue = BinaryHeap::new();
 
     priority_queue.push(AStarQueueItem {
-        state: initial,
+        state: initial.clone(),
         cost: 0,
         // Technically this is wrong - but this entry gets immediately removed
         // so we don't care that it has a dummy priority of 0
         priority: 0,
     });
+    // Set cost and come-from of the start state
+    state_data.insert(
+        initial,
+        AStarRecord {
+            come_from: None,
+            best_cost: 0,
+        },
+    );
 
     let mut found_goal = None;
     while let Some(AStarQueueItem { state, cost, .. }) = priority_queue.pop() {
@@ -78,7 +86,7 @@ where
                 Entry::Occupied(mut entry) => {
                     if next_cost < entry.get().best_cost {
                         entry.insert(AStarRecord {
-                            come_from: state.clone(),
+                            come_from: Some(state.clone()),
                             best_cost: next_cost,
                         });
                         true
@@ -88,7 +96,7 @@ where
                 }
                 Entry::Vacant(entry) => {
                     entry.insert(AStarRecord {
-                        come_from: state.clone(),
+                        come_from: Some(state.clone()),
                         best_cost: next_cost,
                     });
                     true
@@ -113,10 +121,10 @@ where
 
         path.push(state);
 
-        let mut come_from = entry.map(|entry| entry.come_from.clone());
+        let mut come_from = entry.and_then(|entry| entry.come_from.clone());
         while let Some(prev) = come_from {
             let prev_entry = state_data.get(&prev);
-            come_from = prev_entry.map(|entry| entry.come_from.clone());
+            come_from = prev_entry.and_then(|entry| entry.come_from.clone());
             path.push(prev);
         }
 
