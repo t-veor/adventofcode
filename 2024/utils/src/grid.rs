@@ -332,3 +332,7 @@ pub fn von_neumann_neighbors(pos: IVec2) -> [IVec2; 4] {
 pub fn moore_neighbors(pos: IVec2) -> [IVec2; 8] {
     DiagDir::ALL.map(|dir| dir.step(pos))
 }
+
+pub fn manhattan_distance(a: IVec2, b: IVec2) -> i32 {
+    (a.x.abs_diff(b.x) + a.y.abs_diff(b.y)) as i32
+}
