@@ -107,11 +107,6 @@ impl<T> DenseGrid<T> {
         self.grid.get_mut(index)
     }
 
-    pub fn coord_iter(&self) -> impl Iterator<Item = IVec2> {
-        let (width, height) = self.size;
-        (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
-    }
-
     pub fn von_neumann_neighbors(&self, pos: IVec2) -> Vec<IVec2> {
         von_neumann_neighbors(pos)
             .into_iter()
@@ -124,6 +119,22 @@ impl<T> DenseGrid<T> {
             .into_iter()
             .filter(|&pos| self.in_bounds(pos))
             .collect()
+    }
+
+    pub fn coords(&self) -> impl Iterator<Item = IVec2> {
+        let (width, height) = self.size;
+        (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
+    }
+
+    pub fn values(&self) -> impl Iterator<Item = &T> {
+        self.grid.iter()
+    }
+
+    pub fn items(&self) -> impl Iterator<Item = (IVec2, &T)> {
+        self.grid
+            .iter()
+            .enumerate()
+            .map(|(idx, value)| (self.coords_from_index(idx).unwrap(), value))
     }
 }
 
