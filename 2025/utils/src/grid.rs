@@ -121,6 +121,10 @@ impl<T> DenseGrid<T> {
             .collect()
     }
 
+    pub fn rows(&self) -> impl Iterator<Item = &[T]> {
+        self.grid.chunks_exact(self.width() as usize)
+    }
+
     pub fn coords(&self) -> impl Iterator<Item = IVec2> {
         let (width, height) = self.size;
         (0..height).flat_map(move |y| (0..width).map(move |x| ivec2(x, y)))
