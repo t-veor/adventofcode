@@ -2,6 +2,15 @@
   ~ {Parent Rank Sets}
   FromCount ← New ⊃(⇡|×0 ⇡|∘)
 
+  # ? DS
+  Size ← ⧻Parent
+
+  # ? x DS
+  ParentOf ← ⊏ ⊙Parent
+
+  # ? x DS
+  RankOf ← ⊏ ⊙Rank
+
   # xParent DSNew ? x DS
   FindCompressStep ↚ (
     ⊃(∘|⊏|⊏ ⊸⊏) ⊙⊸Parent # x xParent xParentParent DS ?
@@ -14,11 +23,15 @@
   # y DSNew ? x DS
   Find ← ⍥FindCompressStep∞
 
+  # A B XNew ? a b X
+  TwoSeq! ↚ (
+    ^ ⊃⊙⋅∘⋅∘ # A X1 b ?
+    ⊙˜^      # A B X2 ?
+  )
+
   # DSNew ? x y DS
   Union ← (
-    Find ⊃⊙⋅∘⋅∘      # xRoot DS1 y ?
-    Find ⊃(⋅⋅∘|⋅∘|∘) # yRoot DS2 xRoot ?
-    ⊃⋅⋅∘⊙∘           # xRoot yRoot DS2
+    TwoSeq!Find # xRoot yRoot DSNew ?
 
     ¬◡=
     ⨬(⋅⋅∘
@@ -26,7 +39,7 @@
       # xRoot yRoot DS ?
 
       # Swap xRoot and yRoot if xRootRank > yRootRank
-      ⍥⤙⊙◌ ◡(> ∩⌟⊏ ⊙⊙Rank)
+      ⍥˜⊙∘ ◡(/> RankOf ⊟)
 
       # set yRootParent to xRoot
       ⊃(⊙∘
@@ -35,7 +48,7 @@
       ) # xRoot yRoot DS ?
 
       # Increment xRootRank if xRootRank = yRootRank
-      ◡(= ∩⌟⊏ ⊙⊙Rank)
+      ◡(/= RankOf ⊟)
       ⨬(⋅⋅∘
       | ⊃⋅⋅∘∘        # DS xRoot ? xRoot yRoot DS
         ⍜Rank⍜˜⊡(+1) # DS ?
@@ -47,7 +60,7 @@
 
   # ? DS
   SetSizes ← (
-    ∧(⤙⊙◌ Find) ⇡⧻⊸Parent
+    ∧(˜⊙∘ Find) ⇡⧻⊸Parent
     ⊜[⊃⊢⧻] +1⊸⊛ ⍆
   )
 └─╴
