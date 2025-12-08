@@ -1,5 +1,6 @@
 pub mod cycle_detection;
 pub mod discrete_math;
+pub mod disjoint_set;
 pub mod grid;
 pub mod parse;
 pub mod pathfinding;
