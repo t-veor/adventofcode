@@ -31,14 +31,23 @@ FilledTrace ← FillTrace Trace
 # segments being 1 away from each other.
 Compress ← $CompressedCoords ×2 ⍜(°⊟⍉)∩(⨂⊸(▽⊸⧆₁⍆))
 
-GetRect   ← ↙⊃⋅∘(↘⊙⋅∘) ⟜(+1-) ⍜(⍉⊟)≡⍆
-ValidRect ← /×♭ GetRect
+PrefixTrace ← $PrefixTrace \+≡\+ ⌝↘1_1 ¬FilledTrace
+
+GetRect ← (
+  ≡⍆ ⍉⊟
+  ⍜⍉(+0_1)
+  ≡(⊟ ⊓⊏⊏ ⊙˜⊙∘ ⊓°⊟°⊟) ⧅⋅⋅1 2 ⇡2 ¤
+  ⊡
+  ×1_¯1_¯1_1
+  /+
+)
+ValidRect ← =0 GetRect
 
 ValidRectMask ← (
   Compress
   ⊃($RectIdxs ⧅<2 ⇡⧻
   | ¤
-  | $FilledTrace ¤FilledTrace
+  | ¤PrefixTrace
   )
   ≡(ValidRect °⊟ ⊏)
 )
@@ -47,7 +56,7 @@ Star₂ ← (
   ▽ ⊃ValidRectMask Areas
   /↥
 )
-
+#
 &fras ⍣(◇⊏1)"input.txt" &args
 ⊜[∩⋕ °$"_,_"] ⊸≠@\n
 
